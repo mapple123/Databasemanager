@@ -1,27 +1,25 @@
 package gui_main;
 
-import java.awt.Color;
-import java.awt.Dimension;
-
 import javax.swing.JPanel;
 
+//TODO: Working on it
+/**
+ * Klasse fuer das South-Main-Panel inklusive Verhalten und Aussehen
+ * 
+ * Entwickler: Jan Schwenger
+ */
 public class South_Main_Panel extends JPanel{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
+	@SuppressWarnings("unused")
 	private Main_Frame frame;
 	
 	public South_Main_Panel(Main_Frame frame) {
 		this.frame = frame;
 		initComponents();
 		setComponents();
-		setBackground(Color.DARK_GRAY);
-		
-		//setPreferredSize(new Dimension(0, 120));
-		resizePanel();
+		//resizePanel();
 	}
 
 	private void initComponents() {
@@ -33,9 +31,9 @@ public class South_Main_Panel extends JPanel{
 	
 	
 
-	protected void resizePanel() {
+	/*protected void resizePanel() {
 		
 		//setPreferredSize(new Dimension(0, (int)(frame.getHeight() - frame.getHeight() / 1.15)));	
-	}
+	}*/
 
 }

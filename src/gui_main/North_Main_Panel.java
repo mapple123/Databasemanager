@@ -1,10 +1,5 @@
 package gui_main;
 
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.net.URL;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -12,11 +7,13 @@ import javax.swing.SwingConstants;
 
 import functionality.Methods;
 
+/**
+ * Klasse fuer das North-Main-Panel inklusive Verhalten und Aussehen
+ * 
+ * Entwickler: Jan Schwenger
+ */
 public class North_Main_Panel extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private Main_Frame frame;
@@ -44,22 +41,13 @@ public class North_Main_Panel extends JPanel {
 		this.frame = frame;
 		initComponents();
 		setComponents();
-		//setBackground(Color.DARK_GRAY);
-
-		resizePanel();
+		//resizePanel();
 	}
 
 	private void initComponents() {
 		menu = new CustomMenu();
-		
-		
-		
 		labelDBPathInfo = new JLabel("", SwingConstants.CENTER);
-		//labelDBPathInfo.setForeground(Color.WHITE);
-		
-		
 		labelDBPathInfo2 = new JLabel("", SwingConstants.CENTER);
-		//labelDBPathInfo2.setForeground(Color.WHITE);
 	}
 
 	private void setComponents() {
@@ -80,7 +68,6 @@ public class North_Main_Panel extends JPanel {
 			labelDBPathInfo.setIcon( null );
 		}else {
 			ImageIcon iconDb = Methods.loadImage("datenbank.png", 15, 15);
-			
 			iconDb.getImage().flush();
 			labelDBPathInfo.setIcon( iconDb );
 		}
@@ -90,16 +77,14 @@ public class North_Main_Panel extends JPanel {
 			if(labelDBPathInfo2.getText().isBlank()) {
 				labelDBPathInfo2.setIcon( null );
 			}else {
-				ImageIcon iconTable = Methods.loadImage("tabelle.png", 15, 15);
-				
+				ImageIcon iconTable = Methods.loadImage("tabelle.png", 15, 15);	
 				iconTable.getImage().flush();
 				labelDBPathInfo2.setIcon( iconTable );
-			}
-		
+			}	
 	}
 
-	protected void resizePanel() {
+	/*protected void resizePanel() {
 		//setPreferredSize(new Dimension(0, (int) (frame.getHeight() - frame.getHeight() / 1.15)));
-	}
+	}*/
 
 }

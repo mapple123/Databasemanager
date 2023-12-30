@@ -3,22 +3,22 @@ package objects;
 import javax.swing.JButton;
 
 public class DbListItemDB {
-	
+
 	private String dbName, tableName, text;
-	
+
 	private JButton button;
 
-    public DbListItemDB(String dbName, String tableName, String text, JButton button) {
-    	this.dbName = dbName;
-    	this.tableName = tableName;
-        this.setText(text);
-        this.setButton(button);
-    }
-	
+	public DbListItemDB(String dbName, String tableName, String text, JButton button) {
+		this.dbName = dbName;
+		this.tableName = tableName;
+		this.setText(text);
+		this.setButton(button);
+	}
+
 	public DbListItemDB(String dbName) {
 		this.setDbName(dbName);
 	}
-	
+
 	public DbListItemDB(String dbName, String tableName) {
 		this.setDbName(dbName);
 		this.setTableName(tableName);
@@ -34,8 +34,7 @@ public class DbListItemDB {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		if(tableName != null)
+		if (tableName != null)
 			return tableName;
 		return dbName;
 	}
@@ -63,7 +62,5 @@ public class DbListItemDB {
 	public void setText(String text) {
 		this.text = text;
 	}
-	
-	
 
 }

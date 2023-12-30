@@ -1,7 +1,10 @@
 package objects;
 
-import java.util.ArrayList;
-
+/**
+ * Klasse fuer ein  ColumnObject 
+ * 
+ * Entwickler: Jan Schwenger
+ */
 public class ColumnObj {
 	
 	private String  type, name;

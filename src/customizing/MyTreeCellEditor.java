@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.EventObject;
+import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -21,134 +22,137 @@ import javax.swing.border.Border;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellEditor;
 import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import enums.NodeType;
 import functionality.Methods;
 import gui_main.Main_Frame;
+import lang_res.Consts;
 import objects.AddJButton;
 
+/**
+ * Klasse fuer das customized Verhalten/Aussehen für die JTree-Komponente
+ * 
+ * Entwickler: Jan Schwenger
+ */
 public class MyTreeCellEditor extends DefaultTreeCellEditor {
-	private JTextField tf;
+	private JTextField textFieldInput;
 	private JPanel view;
 	private JButton btn;
 	private AddJButton item;
 	
-	private Main_Frame frame;
+	private ResourceBundle bundle;
 
+	//TODO:Delete
+	//private Main_Frame frame;
+
+	
+	//Konstruktor der Klasse
 	public MyTreeCellEditor(JTree tree, DefaultTreeCellRenderer renderer, Main_Frame frame) {
 		super(tree, renderer);
-		this.frame = frame;
+		//TODO:Delete
+		//this.frame = frame;
+		bundle = frame.getBundle();
 		view = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-		
-		// my_button = new JButton("x");
-		// JFormattedTextField my_textfield = new JFormattedTextField("Nr.");
-
 		Border lowered_bevelborder = BorderFactory.createLoweredBevelBorder();
 		view.setBorder(lowered_bevelborder);
 
-		btn = new JButton("OK");
-		tf = new JTextField();
-		btn.setPreferredSize(new Dimension(50,20));
+		btn = new JButton(bundle.getString(Consts.BUTTON_OK));
+		textFieldInput = new JTextField();
+		btn.setPreferredSize(new Dimension(50, 20));
 		btn.setFont(new Font("Arial", Font.PLAIN, 10));
-		tf.setMaximumSize(new Dimension(90, 20));
-		tf.setPreferredSize(new Dimension(90, 20));
-		tf.setBorder(BorderFactory.createEmptyBorder());
-		
-		
+		textFieldInput.setMaximumSize(new Dimension(90, 20));
+		textFieldInput.setPreferredSize(new Dimension(90, 20));
+		textFieldInput.setBorder(BorderFactory.createEmptyBorder());
+
+		// Actionlistener, der fuer das Erstellen von neuen Datenbanken beziehungsweise für Tabellen zustaendig ist
 		btn.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(!tf.getText().trim().isEmpty()) {
+				if (!textFieldInput.getText().trim().isEmpty()) {
 					if (item.getNodeType() == NodeType.DATABASE) {
-						System.out.println("Neue Datenbank");
+						//TODO:Remove line
+						//System.out.println("Neue Datenbank");
 						try {
-							Methods.createNewDB(tf.getText().toString().trim());
-							tf.setText("");
+							Methods.createNewDB(textFieldInput.getText().toString().trim());
+							textFieldInput.setText("");
 							frame.getWestPanel().reloadJTree();
 						} catch (Exception e1) {
-							// TODO Auto-generated catch block
 							JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 						}
-						}else if(item.getNodeType() == NodeType.TABLE) {
-							System.out.println("Neue Tabelle");
-							/*AddJButton item = ((AddJButton)(((DefaultMutableTreeNode)tree.getLastSelectedPathComponent()).getUserObject()));
-							System.out.println(item.getDbName());
-							frame.getNorthPanel().setPathInfo(item.getDbName());
-							frame.getWestPanel().reloadJTree();
-							*/
-						}
-							
-						
-						
-						
-						
-				}else
-					JOptionPane.showMessageDialog(null, "Der Name darf nicht leer sein!", "Error", JOptionPane.ERROR_MESSAGE);
-				
+					} else if (item.getNodeType() == NodeType.TABLE) {
+						//TODO: Make the functionality for creating a new Table
+						//System.out.println("Neue Tabelle");
+						/*
+						 * AddJButton item =
+						 * ((AddJButton)(((DefaultMutableTreeNode)tree.getLastSelectedPathComponent()).
+						 * getUserObject())); System.out.println(item.getDbName());
+						 * frame.getNorthPanel().setPathInfo(item.getDbName());
+						 * frame.getWestPanel().reloadJTree();
+						 */
+					}
+
+				} else
+					JOptionPane.showMessageDialog(null, bundle.getString(Consts.EMPTY_TEXT_FIELD_ERROR), bundle.getString(Consts.ERROR_TITEL),
+							JOptionPane.ERROR_MESSAGE);
+
 			}
 		});
 
-	view.addMouseMotionListener(new MouseMotionListener() {
+		view.addMouseMotionListener(new MouseMotionListener() {
 
-		public void mouseDragged(MouseEvent e) {
-			// System.out.println("Dragged.");
-		}
+			public void mouseDragged(MouseEvent e) {
+			}
 
-		public void mouseMoved(MouseEvent e) {
-			// System.out.println("Moving: Button: " + button.getBounds());
-			// System.out.println("Moving: e point: " + e.getPoint());
-			// System.out.println("---------------");
-		}
+			public void mouseMoved(MouseEvent e) {
+		
+			}
 
-	});
-	view.addMouseListener(new MouseListener() {
+		});
+		view.addMouseListener(new MouseListener() {
 
-		public void mouseClicked(MouseEvent e) {
-		}
+			public void mouseClicked(MouseEvent e) {
+			}
 
-		public void mousePressed(MouseEvent e) {
-			// System.out.println("B bounds: " + button.getBounds());
-			// System.out.println("e point: " + e.getPoint());
-			// System.out.println("---------------");
-		}
+			public void mousePressed(MouseEvent e) {
+				
+			}
 
-		public void mouseReleased(MouseEvent e) {
-		}
+			public void mouseReleased(MouseEvent e) {
+			}
 
-		public void mouseEntered(MouseEvent e) {
-			// System.out.println("Entered");
-		}
+			public void mouseEntered(MouseEvent e) {
+				
+			}
 
-		public void mouseExited(MouseEvent e) {
-			// System.out.println("Exited");
-		}
-	});
-	
+			public void mouseExited(MouseEvent e) {
+			}
+		});
 
-		view.add(tf);
+		view.add(textFieldInput);
 		view.add(btn);
 	}
 
+	
+	
 	public Component getTreeCellEditorComponent(JTree tree, Object value, boolean isSelected, boolean expanded,
 			boolean leaf, int row) {
-		// return renderer.getTreeCellRendererComponent(tree, value, true, expanded,
-		// leaf, row, true);
-		// button.setText(value.toString());
+		
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
 
+		//Setzt den Tooltip fuer Datenbank und Tabelle
 		if (node.getUserObject() instanceof JButton)
 			item = (AddJButton) node.getUserObject();
 		if (item.getNodeType() == NodeType.DATABASE) {
-			tf.setToolTipText("Erstelle eine neue Datenbank");
+			textFieldInput.setToolTipText(bundle.getString(Consts.TOOL_TIP_CREATE_DB));
 		} else
-			tf.setToolTipText("Erstelle eine neue Tabelle");
+			textFieldInput.setToolTipText(bundle.getString(Consts.TOOL_TIP_CREATE_TABLE));
 
 		return view;
 	}
 
+	//Methode die schaut, ob eine Zelle bearbeitbar ist
 	@Override
 	public boolean isCellEditable(EventObject event) {
 		if (event instanceof MouseEvent) {
@@ -156,8 +160,8 @@ public class MyTreeCellEditor extends DefaultTreeCellEditor {
 			MouseEvent mouseEvent = (MouseEvent) event;
 			TreePath path = tree.getPathForLocation(mouseEvent.getX(), mouseEvent.getY());
 
-			int c = tree.getRowForLocation(mouseEvent.getX(), mouseEvent.getY());
-			System.out.println(tree.getPathForRow(c));
+			int row = tree.getRowForLocation(mouseEvent.getX(), mouseEvent.getY());
+			System.out.println(tree.getPathForRow(row));
 			if (path != null) {
 
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();

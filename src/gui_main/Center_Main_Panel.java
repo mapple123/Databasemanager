@@ -1,7 +1,6 @@
 package gui_main;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -32,17 +31,18 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import functionality.Methods;
 
+/**
+ * Klasse fuer das Center-Main-Panel inklusive Verhalten und Aussehen
+ * 
+ * Entwickler: Jan Schwenger
+ */
 public class Center_Main_Panel extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private JTable dbTable;
@@ -60,7 +60,7 @@ public class Center_Main_Panel extends JPanel {
 	}
 
 	private JTextField jtfFilter = new JTextField();
-	private JButton jbtFilter = new JButton("Filter");
+	// private JButton jbtFilter = new JButton("Filter");
 
 	private JPanel holder;
 
@@ -86,11 +86,6 @@ public class Center_Main_Panel extends JPanel {
 		holder.setVisible(false);
 		try {
 			dbTable = new JTable(loadData(null, null)) {
-				/**
-				 * 
-				 */
-
-				// TODO: Look After resizing
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -100,7 +95,7 @@ public class Center_Main_Panel extends JPanel {
 
 				DefaultTableCellRenderer renderLeft = new DefaultTableCellRenderer();
 
-				{ // initializer block
+				{
 					renderLeft.setHorizontalAlignment(SwingConstants.LEFT);
 				}
 
@@ -136,47 +131,21 @@ public class Center_Main_Panel extends JPanel {
 				@Override
 				public void columnMarginChanged(ChangeEvent e) {
 					if (isEditing()) {
-						// JW: darn - cleanup to terminate editing ...
 						removeEditor();
 					}
 					TableColumn resizingColumn = getTableHeader().getResizingColumn();
-					// Need to do this here, before the parent's
-					// layout manager calls getPreferredSize().
 					if (resizingColumn != null && autoResizeMode == AUTO_RESIZE_OFF && !inLayout) {
-
 						int width = 100;
 						width = Math.max(width, resizingColumn.getPreferredWidth());
 						resizingColumn.setMinWidth(100);
 						resizingColumn.setPreferredWidth(width);
 						resizingColumn.setMaxWidth(width);
 						resizingColumn.setResizable(false);
-
 					}
 					resizeAndRepaint();
 				}
 
-				/*
-				 * @Override public void doLayout() {
-				 * 
-				 * 
-				 * 
-				 * 
-				 * int width = getWidth(); int columnCount = getColumnCount(); if(columnCount !=
-				 * 0) {
-				 * 
-				 * int columnSize = width / columnCount; for (int index = 0; index <
-				 * columnCount; index++) { TableColumn column =
-				 * getColumnModel().getColumn(index); column.setResizable(true);
-				 * column.setPreferredWidth(width); column.setMinWidth(100); } }
-				 * 
-				 * 
-				 * super.doLayout();
-				 * 
-				 * }
-				 */
-
 			};
-			// dbTable.setModel(loadData(null, null));
 
 			JPanel panel = new JPanel(new BorderLayout());
 			ImageIcon icon = Methods.loadImage("lupe.png", 25, 25);
@@ -184,9 +153,7 @@ public class Center_Main_Panel extends JPanel {
 			panel.add(label, BorderLayout.WEST);
 			panel.add(jtfFilter, BorderLayout.CENTER);
 
-			// setLayout(new BorderLayout());
 			holder.add(panel, BorderLayout.NORTH);
-			// add(new JScrollPane(jTable), BorderLayout.CENTER);
 
 			jtfFilter.getDocument().addDocumentListener(new DocumentListener() {
 
@@ -198,14 +165,13 @@ public class Center_Main_Panel extends JPanel {
 						rowSorter.setRowFilter(null);
 					} else {
 						rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-						System.out.println(text);
+						// System.out.println(text);
 					}
 				}
 
 				@Override
 				public void removeUpdate(DocumentEvent e) {
 					String text = jtfFilter.getText();
-
 					if (text.trim().length() == 0) {
 						rowSorter.setRowFilter(null);
 					} else {
@@ -215,9 +181,7 @@ public class Center_Main_Panel extends JPanel {
 
 				@Override
 				public void changedUpdate(DocumentEvent e) {
-					throw new UnsupportedOperationException("Not supported yet."); // To change body of generated
-																					// methods, choose Tools |
-																					// Templates.
+					throw new UnsupportedOperationException("Not supported yet.");
 				}
 
 			});
@@ -295,9 +259,6 @@ public class Center_Main_Panel extends JPanel {
 						.addComponent(btnShowHideWestPanel).addComponent(holder).addComponent(btnShowHideEastPanel))
 
 		);
-
-		// add(scrollPane);
-		// add(btnShowHideWestPanel);
 	}
 
 	private Object[][] getAllData(String db, String table) throws Exception {
@@ -313,12 +274,10 @@ public class Center_Main_Panel extends JPanel {
 				Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
 						ResultSet.CONCUR_READ_ONLY);
 
-				// Query
 				ResultSet resultSet = statement.executeQuery("SELECT * FROM `" + table + "`");
 
 				ResultSetMetaData rsmd = resultSet.getMetaData();
 
-				// Get number of columns returned
 				int numOfData = rsmd.getColumnCount();
 
 				int size = 0;
@@ -337,7 +296,6 @@ public class Center_Main_Panel extends JPanel {
 					}
 				}
 
-				// Close DB connection
 				statement.close();
 				connection.close();
 
@@ -369,7 +327,6 @@ public class Center_Main_Panel extends JPanel {
 			}
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -378,7 +335,6 @@ public class Center_Main_Panel extends JPanel {
 				try {
 					conn.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		}
@@ -393,10 +349,7 @@ public class Center_Main_Panel extends JPanel {
 
 	protected TableModel loadData(String db, String table) throws Exception {
 		return new DefaultTableModel(getAllData(db, table), getColumnnames(db, table)) {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
+			static final long serialVersionUID = 1L;
 
 			@Override
 			public void setValueAt(Object value, int row, int col) {
@@ -407,10 +360,10 @@ public class Center_Main_Panel extends JPanel {
 				try {
 					primaryColumns = Methods.getPrimaryKeyColumnsForTable(Methods.connectionToDb(db), table);
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
+
 					e.printStackTrace();
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
+
 					e.printStackTrace();
 				}
 
@@ -422,10 +375,10 @@ public class Center_Main_Panel extends JPanel {
 					try {
 						Methods.updateItem(db, table, value.toString(), this.getColumnName(col), primaryColumns, o);
 					} catch (SQLException e) {
-						// TODO Auto-generated catch block
+
 						e.printStackTrace();
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
+
 						e.printStackTrace();
 					}
 				} else
@@ -437,7 +390,7 @@ public class Center_Main_Panel extends JPanel {
 					 * Integer.parseInt("" + this.getValueAt(row, 0)));
 					 */
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
+
 					e.printStackTrace();
 				}
 
@@ -445,12 +398,10 @@ public class Center_Main_Panel extends JPanel {
 					dbTable.setModel(loadData(db, table));
 
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
+
 					e.printStackTrace();
 				}
-				;
 				fireTableCellUpdated(row, col);
-
 			}
 
 			@Override
@@ -474,30 +425,27 @@ public class Center_Main_Panel extends JPanel {
 
 	}
 
-	private void resizeColumnWidth(JTable table) {
-		final TableColumnModel columnModel = table.getColumnModel();
-		for (int column = 0; column < table.getColumnCount(); column++) {
-			int width = 15; // Min width
-			for (int row = 0; row < table.getRowCount(); row++) {
-				TableCellRenderer renderer = table.getCellRenderer(row, column);
-				Component comp = table.prepareRenderer(renderer, row, column);
-				width = Math.max(comp.getPreferredSize().width + 1, width);
-
-			}
-			// width = Math.max(width,
-			// table.getColumnModel().getColumn(column).getPreferredWidth());
-			if (width > 300)
-				width = 300;
-
-			columnModel.getColumn(column).setPreferredWidth(width);
-		}
-
-	}
+	/*
+	 * private void resizeColumnWidth(JTable table) { final TableColumnModel
+	 * columnModel = table.getColumnModel(); for (int column = 0; column <
+	 * table.getColumnCount(); column++) { int width = 15; // Min width for (int row
+	 * = 0; row < table.getRowCount(); row++) { TableCellRenderer renderer =
+	 * table.getCellRenderer(row, column); Component comp =
+	 * table.prepareRenderer(renderer, row, column); width =
+	 * Math.max(comp.getPreferredSize().width + 1, width);
+	 * 
+	 * } // width = Math.max(width, //
+	 * table.getColumnModel().getColumn(column).getPreferredWidth()); if (width >
+	 * 300) width = 300;
+	 * 
+	 * columnModel.getColumn(column).setPreferredWidth(width); }
+	 * 
+	 * }
+	 */
 
 	private void setIcon(JButton btn) {
 		btn.setBorderPainted(false);
 		btn.setBorder(null);
-		// button.setFocusable(false);
 		btn.setMargin(new Insets(0, 0, 0, 0));
 		btn.setContentAreaFilled(false);
 		btn.setIcon(Methods.loadImage("menu.png", 30, 30));

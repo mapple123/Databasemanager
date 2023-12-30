@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
+import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -18,13 +19,17 @@ import javax.swing.JSplitPane;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import mainpackage.ALL_CONST;
+import lang_res.Consts;
+
+
+/**
+ * Klasse fuer das Hauptfenster des Programmes 
+ * 
+ * Entwickler: Jan Schwenger
+ */
 
 public class Main_Frame extends JFrame implements KeyListener, WindowStateListener, ComponentListener, MouseListener {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private Container mainPanel;
@@ -36,8 +41,11 @@ public class Main_Frame extends JFrame implements KeyListener, WindowStateListen
 
 	private JSplitPane sp, sp2;
 
-	public Main_Frame() {
-		super(ALL_CONST.MAIN_FRAME_TITLE);
+	private ResourceBundle bundle;
+
+	public Main_Frame(ResourceBundle bundle) {
+		super(bundle.getString(Consts.TITEL));
+		this.bundle = bundle;
 		initComponents();
 
 		mainPanel.setLayout(new BorderLayout());
@@ -103,7 +111,7 @@ public class Main_Frame extends JFrame implements KeyListener, WindowStateListen
 
 	private void refreshTable(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_R) {
-			JOptionPane.showMessageDialog(null, "Erfolgreich aktualisiert", "Hinweis", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, bundle.getString(Consts.SUCCESSFULL_REFRESHED_MESSAGE), bundle.getString(Consts.ALERT_TITEL), JOptionPane.INFORMATION_MESSAGE);
 			try {
 				centerPanel.getTable().setModel(centerPanel.loadData(westPanel.dbName, westPanel.tableName));
 				centerPanel.getTable().revalidate();
@@ -115,16 +123,15 @@ public class Main_Frame extends JFrame implements KeyListener, WindowStateListen
 
 	protected void refreshTable() {
 
-		
 		try {
 			centerPanel.getTable().setModel(centerPanel.loadData(westPanel.dbName, westPanel.tableName));
-			TableRowSorter<TableModel>  rowSorter= new TableRowSorter<>(centerPanel.getTable().getModel());
-			
+			TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(centerPanel.getTable().getModel());
+
 			centerPanel.setRowSorter(rowSorter);
-			
+
 			centerPanel.getTable().setRowSorter(rowSorter);
 			centerPanel.getTable().revalidate();
-			JOptionPane.showMessageDialog(null, "Erfolgreich aktualisiert", "Hinweis", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, bundle.getString(Consts.SUCCESSFULL_REFRESHED_MESSAGE), bundle.getString(Consts.ALERT_TITEL), JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -133,7 +140,6 @@ public class Main_Frame extends JFrame implements KeyListener, WindowStateListen
 
 	@Override
 	public void windowStateChanged(WindowEvent e) {
-
 		sp.setDividerLocation(290);
 		sp.invalidate();
 		sp.validate();
@@ -150,23 +156,18 @@ public class Main_Frame extends JFrame implements KeyListener, WindowStateListen
 
 	@Override
 	public void componentMoved(ComponentEvent e) {
-		// resizeAllComponents();
 	}
 
 	@Override
 	public void componentShown(ComponentEvent e) {
 		resizeAllComponents();
-
 	}
 
 	@Override
 	public void componentHidden(ComponentEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	private void resizeAllComponents() {
-
 		sp.setDividerLocation(290);
 		sp.invalidate();
 		sp.validate();
@@ -174,8 +175,8 @@ public class Main_Frame extends JFrame implements KeyListener, WindowStateListen
 		sp2.invalidate();
 		sp2.validate();
 		centerPanel.resizeTable();
-		southPanel.resizePanel();
-		northPanel.resizePanel();
+		//southPanel.resizePanel();
+		//northPanel.resizePanel();
 		westPanel.resizePanel();
 		eastPanel.resizePanel();
 		mainPanel.revalidate();
@@ -185,31 +186,23 @@ public class Main_Frame extends JFrame implements KeyListener, WindowStateListen
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		requestFocusOnMainFrame();
-
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 		requestFocusOnMainFrame();
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	private void requestFocusOnMainFrame() {
@@ -238,6 +231,10 @@ public class Main_Frame extends JFrame implements KeyListener, WindowStateListen
 
 	protected JSplitPane getEastSplitPane() {
 		return sp2;
+	}
+
+	public ResourceBundle getBundle() {
+		return bundle;
 	}
 
 }

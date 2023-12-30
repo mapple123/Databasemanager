@@ -1,21 +1,28 @@
 package mainpackage;
 
-import java.io.File;
 import java.net.URL;
-import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
-import functionality.Methods;
 import gui_main.Main_Frame;
 import gui_setup.MainSetupFrame;
+import lang_res.Consts;
 
 class Main_Test {
 	public static void main(String args[]) {
 		
 		URL keyFileURL = Main_Test.class.getClassLoader().getResource("data");
+		//TODO: NOT DELETING for purpose testing
+		//Locale currentLocale = Locale.US;
+		Locale currentLocale = Locale.getDefault();
+		System.out.println(currentLocale);
+		ResourceBundle bundle = ResourceBundle.getBundle(Consts.FILENAME, currentLocale);
 		if (keyFileURL == null) {
-			new MainSetupFrame();
-		}else
-			new Main_Frame();
+			new MainSetupFrame(bundle);
+		}else {
+			new Main_Frame(bundle);		
+		}
+			
 		
 		
 		//For test purposes TODO: NOT DELETE

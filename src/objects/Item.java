@@ -1,10 +1,15 @@
 package objects;
 
+/**
+ * Klasse fuer ein customized Item 
+ * 
+ * Entwickler: Jan Schwenger
+ */
 public class Item {
-	
+
 	private String[] columns;
 	private Object[][] data;
-	
+
 	public Item(String[] columns, Object[][] data) {
 		this.setColumns(columns);
 		this.setData(data);
